@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Нужен доступ к медиатеке для сохранения живых обоев (Live Photo) и фонов темы.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Нужен доступ к медиатеке для сохранения живых обоев (Live Photo) и фонов темы.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Используется для локальной установки конфигурационного профиля иконок и шрифтов темы в 1 клик.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>CormorantUnicase-Bold.ttf</string>
+		<string>RuslanDisplay-Regular.ttf</string>
+		<string>UnifrakturMaguntia-Book.ttf</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>ru.theinquisitor.mementothemes</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mementothemes</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

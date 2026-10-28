@@ -1,0 +1,53 @@
+{
+  "id": "plague-doctor",
+  "title": "Чумной Доктор · Memento Mori",
+  "subtitle": "Готический собор, живые вороны и янтарный фонарь",
+  "author": "Dark Tarkhan",
+  "version": "1.0.0",
+  "accentHex": "#E8943A",
+  "secondaryHex": "#8A6BB8",
+  "backgroundHex": "#0E0C14",
+  "widgetQuote": "MEMENTO MORI",
+  "widgetSubquote": "Свет фонаря среди тумана и ворон",
+  "lockscreenFile": "lockscreen.png",
+  "homescreenFile": "homescreen.png",
+  "liveVideoFile": "live_wallpaper.mp4",
+  "fonts": [
+    {
+      "id": "cormorant-unicase-bold",
+      "displayName": "Cormorant Unicase Bold (Антиква / Готика)",
+      "postScriptName": "CormorantUnicase-Bold",
+      "fileName": "CormorantUnicase-Bold.ttf"
+    },
+    {
+      "id": "ruslan-display",
+      "displayName": "Ruslan Display (Древнерусская вязь)",
+      "postScriptName": "RuslanDisplay",
+      "fileName": "RuslanDisplay-Regular.ttf"
+    },
+    {
+      "id": "unifraktur-maguntia",
+      "displayName": "UnifrakturMaguntia (Средневековая фрактура)",
+      "postScriptName": "UnifrakturMaguntia",
+      "fileName": "UnifrakturMaguntia-Book.ttf"
+    }
+  ],
+  "icons": [
+    { "id": "phone",       "appName": "Телефон",       "urlScheme": "tel://",          "fileName": "01-Phone.png",       "category": "system" },
+    { "id": "telegram",    "appName": "Telegram",      "urlScheme": "tg://",           "fileName": "02-Telegram.png",    "category": "social" },
+    { "id": "youtube",     "appName": "YouTube",       "urlScheme": "youtube://",      "fileName": "03-YouTube.png",     "category": "media" },
+    { "id": "safari",      "appName": "Safari",        "urlScheme": "x-web-search://", "fileName": "04-Safari.png",      "category": "system" },
+    { "id": "vkmusic",     "appName": "VK Музыка",     "urlScheme": "vkmusic://",      "fileName": "05-VKMusic.png",     "category": "media" },
+    { "id": "chitalnya",   "appName": "Читальня",      "urlScheme": "chitalnya://",    "fileName": "06-AuthorToday.png", "category": "books" },
+    { "id": "amnezia",     "appName": "AmneziaVPN",    "urlScheme": "amneziavpn://",   "fileName": "07-AmneziaVPN.png",  "category": "utility" },
+    { "id": "messages",    "appName": "Сообщения",     "urlScheme": "sms://",          "fileName": "08-Messages.png",    "category": "system" },
+    { "id": "settings",    "appName": "Настройки",     "urlScheme": "App-Prefs://",    "fileName": "09-Settings.png",    "category": "system" },
+    { "id": "camera",      "appName": "Камера",        "urlScheme": "camera://",       "fileName": "10-Camera.png",      "category": "system" },
+    { "id": "yandexmaps",  "appName": "Яндекс Карты",  "urlScheme": "yandexmaps://",   "fileName": "11-YandexMaps.png",  "category": "navigation" },
+    { "id": "yandexgo",    "appName": "Яндекс Go",     "urlScheme": "yandextaxi://",   "fileName": "12-YandexGo.png",    "category": "navigation" },
+    { "id": "raiffeisen",  "appName": "Райффайзен",    "urlScheme": "raiffeisen://",   "fileName": "13-Raiffeisen.png",  "category": "finance" },
+    { "id": "discord",     "appName": "Discord",       "urlScheme": "discord://",      "fileName": "14-Discord.png",     "category": "social" },
+    { "id": "guitar",      "appName": "Гитара / GTRS", "urlScheme": "guitartuna://",   "fileName": "15-GuitarTuna.png",  "category": "music" },
+    { "id": "clock",       "appName": "Часы",          "urlScheme": "clock-alarm://",  "fileName": "16-Clock.png",       "category": "system" }
+  ]
+}

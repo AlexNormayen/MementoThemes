@@ -1,0 +1,102 @@
+# Codemagic CI — MementoThemes (unsigned IPA + App Store / TestFlight signed workflow)
+#
+# Uses the same `app_store` variable group as AuthorToday:
+#   DEVELOPMENT_TEAM = 57FVB8DUWX
+#   APP_STORE_CONNECT_ISSUER_ID = 4178b5af-2d2d-414f-ba80-ce236a4bb048
+#   APP_STORE_CONNECT_KEY_IDENTIFIER = 7MA636HK4K
+#   APP_STORE_CONNECT_PRIVATE_KEY (secure)
+#   CERTIFICATE_PRIVATE_KEY (secure)
+
+workflows:
+  ios-unsigned-ipa:
+    name: MementoThemes iOS IPA (unsigned)
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      vars:
+        XCODE_PROJECT: MementoThemes.xcodeproj
+        XCODE_SCHEME: MementoThemes
+    scripts:
+      - name: Build unsigned IPA
+        script: |
+          set -euo pipefail
+          xcodebuild \
+            -project "$XCODE_PROJECT" \
+            -scheme "$XCODE_SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath "$CM_BUILD_DIR/DerivedData" \
+            -destination "generic/platform=iOS" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            ONLY_ACTIVE_ARCH=NO \
+            CURRENT_PROJECT_VERSION="${PROJECT_BUILD_NUMBER:-1}" \
+            build
+          APP=$(find "$CM_BUILD_DIR/DerivedData/Build/Products" -name "MementoThemes.app" -type d | head -n 1)
+          STAGE="$CM_BUILD_DIR/ipa_stage"
+          mkdir -p "$STAGE/Payload"
+          cp -R "$APP" "$STAGE/Payload/"
+          (cd "$STAGE" && zip -qry "$CM_BUILD_DIR/MementoThemes.ipa" Payload)
+    artifacts:
+      - MementoThemes.ipa
+
+  ios-app-store-signed:
+    name: MementoThemes App Store (signed)
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      groups:
+        - app_store
+      vars:
+        XCODE_PROJECT: MementoThemes.xcodeproj
+        XCODE_SCHEME: MementoThemes
+        BUNDLE_ID: ru.theinquisitor.mementothemes
+        BUNDLE_ID_WIDGET: ru.theinquisitor.mementothemes.MementoWidget
+        DEVELOPMENT_TEAM: 57FVB8DUWX
+    scripts:
+      - name: Set up keychain
+        script: |
+          set -euo pipefail
+          keychain initialize
+
+      - name: Fetch signing files from App Store Connect
+        script: |
+          set -euo pipefail
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create \
+            --strict-match-identifier
+          app-store-connect fetch-signing-files "$BUNDLE_ID_WIDGET" \
+            --type IOS_APP_STORE \
+            --create \
+            --strict-match-identifier
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Build and export signed IPA
+        script: |
+          set -euo pipefail
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME" \
+            --config Release \
+            --archive-directory "$CM_BUILD_DIR/build/ios/xcarchive" \
+            --ipa-directory "$CM_BUILD_DIR/build/ios/ipa" \
+            --archive-xcargs "DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM CURRENT_PROJECT_VERSION=${PROJECT_BUILD_NUMBER:-1}"
+          cp "$CM_BUILD_DIR"/build/ios/ipa/*.ipa "$CM_BUILD_DIR/MementoThemes.ipa"
+          ls -lh "$CM_BUILD_DIR/MementoThemes.ipa"
+
+    artifacts:
+      - MementoThemes.ipa
+      - build/ios/xcarchive/**/*.xcarchive
+
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: false
