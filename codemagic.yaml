@@ -91,22 +91,23 @@ workflows:
           cp "$CM_BUILD_DIR"/build/ios/ipa/*.ipa "$CM_BUILD_DIR/MementoThemes.ipa"
           ls -lh "$CM_BUILD_DIR/MementoThemes.ipa"
 
-      - name: Upload to TestFlight and attach Internal group + fowl_348@mail.ru
+      - name: Upload to TestFlight and send invite to fowl_348@mail.ru
         script: |
           set -euo pipefail
-          # Check if the app entry exists in App Store Connect first
-          if app-store-connect apps list --json 2>/dev/null | grep -F "$BUNDLE_ID"; then
-            echo "App Store Connect entry found for $BUNDLE_ID — uploading to TestFlight..."
-            app-store-connect publish \
-              --path "$CM_BUILD_DIR/MementoThemes.ipa" \
-              --beta-group Internal \
-              --locale ru \
-              --whats-new "Memento Темы: Чумной Доктор, Живые обои (Live Photo), готические иконки и шрифты" || true
-          else
-            echo "NOTE: App entry for $BUNDLE_ID is not yet created in App Store Connect UI (My Apps -> + -> New App)."
-            echo "Signed MementoThemes.ipa is built and ready in Artifacts!"
-          fi
+          app-store-connect publish \
+            --path "$CM_BUILD_DIR/MementoThemes.ipa" \
+            --beta-group Internal \
+            --locale ru \
+            --whats-new "Memento Темы: Чумной Доктор, Живые обои (Live Photo), готические иконки и шрифты" || true
 
     artifacts:
       - MementoThemes.ipa
       - build/ios/xcarchive/**/*.xcarchive
+
+    publishing:
+      email:
+        recipients:
+          - fowl_348@mail.ru
+        notify:
+          success: true
+          failure: true
